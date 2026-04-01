@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gana's Glitzy World</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --fur-color: #ffdae9;
+            --glitter-pink: #ff85b3;
+            --dark-pink: #ff1493;
+        }
+
+        body {
+            /* Furry/Fuzzy Texture Effect */
+            background-color: var(--fur-color);
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+                radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.2) 2px, transparent 2px);
+            background-size: 5px 5px, 12px 12px;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pacifico', cursive;
+            cursor: url('https://cur.cursors-4u.net/nature/nat-10/nat984.cur'), auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Moving Cartoon Cats on the sides */
+        .floating-cat {
+            position: fixed;
+            width: 120px;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+        #cat-left { top: 10%; left: 2%; transform: rotate(-10deg); }
+        #cat-right { top: 10%; right: 2%; transform: rotate(10deg); }
+
+        /* Shimmering Glitter Text */
+        .glitter-text {
+            background: linear-gradient(90deg, #ff1493, #ff85b3, #ffffff, #ff85b3, #ff1493);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glitter 3s linear infinite;
+            font-weight: bold;
+        }
+
+        @keyframes glitter {
+            to { background-position: 200% center; }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-top: 60px;
+            text-shadow: 3px 3px 0px white;
+            text-align: center;
+        }
+
+        /* The Input Section */
+        #input-section {
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 50px;
+            border: 4px solid var(--dark-pink);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        input[type="text"] {
+            border: none;
+            outline: none;
+            font-size: 1.2rem;
+            font-family: 'Pacifico', cursive;
+            color: var(--dark-pink);
+            width: 250px;
+        }
+
+        /* Creative Glitter Frames for Categories */
+        #categories {
+            display: none;
+            margin-top: 40px;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+        }
+
+        .category-card {
+            background: white;
+            padding: 20px;
+            border-radius: 25px;
+            /* Multi-layered border for glitter effect */
+            border: 6px solid transparent;
+            background-image: linear-gradient(white, white), 
+                              linear-gradient(45deg, #ff1493, #fff, #ff85b3, #ff1493);
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 160px;
+            text-align: center;
+            box-shadow: 0 8px 15px rgba(255, 20, 147, 0.2);
+        }
+
+        .category-card:hover {
+            transform: scale(1.1) translateY(-10px);
+        }
+
+        .category-card img {
+            width: 60px;
+            margin-bottom: 10px;
+        }
+
+        /* Image Display Gallery */
+        #gallery {
+            margin: 40px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            width: 85%;
+        }
+
+        .gallery-item {
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            border: 3px solid #ffe4ed;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .item-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        /* Cartoon Talking Cat Box */
+        .comment-section {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: none; /* Shown after login */
+            align-items: center;
+            background: white;
+            padding: 10px 25px;
+            border-radius: 60px;
+            border: 4px solid var(--glitter-pink);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+
+        .comment-cat-img {
+            width: 70px;
+            margin-right: 15px;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
+        }
+
+        #commentText {
+            font-size: 1.1rem;
+            max-width: 250px;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="https://openclipart.org/image/400px/217439" id="cat-left" class="floating-cat" alt="cat">
+    <img src="https://openclipart.org/image/400px/302171" id="cat-right" class="floating-cat" alt="cat">
+
+    <h1 class="glitter-text">WELCOME TO GANA'S WORLD!</h1>
+
+    <div id="input-section">
+        <input type="text" id="userName" placeholder="Type your name..." onkeydown="handleEnter(event)">
+    </div>
+
+    <div id="categories">
+        <div class="category-card" onclick="showGallery('supplies')">
+            <img src="https://cdn-icons-png.flaticon.com/128/2541/2541991.png">
+            <div class="glitter-text">Supplies</div>
+        </div>
+        <div class="category-card" onclick="showGallery('books')">
+            <img src="https://cdn-icons-png.flaticon.com/128/2702/2702134.png">
+            <div class="glitter-text">Books</div>
+        </div>
+        <div class="category-card" onclick="showGallery('bags')">
+            <img src="https://cdn-icons-png.flaticon.com/128/2906/2906206.png">
+            <div class="glitter-text">Bags</div>
+        </div>
+        <div class="category-card" onclick="showGallery('pencilcases')">
+            <img src="https://cdn-icons-png.flaticon.com/128/2353/2353322.png">
+            <div class="glitter-text">Cases</div>
+        </div>
+    </div>
+
+    <div id="gallery"></div>
+
+    <div class="comment-section" id="commentBoxContainer">
+        <img src="https://openclipart.org/image/400px/217441" class="comment-cat-img" alt="talking cat">
+        <span id="commentText" class="glitter-text">Gana Sameh is so talented! ✨</span>
+    </div>
+
+    <script>
+        /* --- JAVASCRIPT LOGIC --- */
+
+        // 1. Photo Database with the links provided
+        const data = {
+            supplies: [
+                { name: "Sparkle Supplies", img: "http://googleusercontent.com/image_collection/image_retrieval/512647305119643516_0" },
+                { name: "Glitter Stationery", img: "http://googleusercontent.com/image_collection/image_retrieval/512647305119643516_1" }
+            ],
+            books: [
+                { name: "Pink Study Books", img: "http://googleusercontent.com/image_collection/image_retrieval/8353085041283488462_0" },
+                { name: "Aesthetic Notes", img: "http://googleusercontent.com/image_collection/image_retrieval/8353085041283488462_2" }
+            ],
+            bags: [
+                { name: "Cat Ear Backpack", img: "http://googleusercontent.com/image_collection/image_retrieval/4379300024950541885_0" },
+                { name: "Pink Dream Bag", img: "http://googleusercontent.com/image_collection/image_retrieval/4379300024950541885_2" }
+            ],
+            pencilcases: [
+                { name: "Fluffy Glitter Case", img: "http://googleusercontent.com/image_collection/image_retrieval/6094176522704114646_0" },
+                { name: "Pink Sparkle Pouch", img: "http://googleusercontent.com/image_collection/image_retrieval/6094176522704114646_3" }
+            ]
+        };
+
+        // 2. Handle Login
+        function handleEnter(event) {
+            if (event.key === "Enter") {
+                const name = document.getElementById('userName').value;
+                if(name.trim() !== "") {
+                    document.getElementById('input-section').style.display = 'none';
+                    document.getElementById('categories').style.display = 'flex';
+                    document.getElementById('commentBoxContainer').style.display = 'flex';
+                    startCatComments();
+                }
+            }
+        }
+
+        // 3. Show Gallery with Pictures and Labels
+        function showGallery(category) {
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = ""; // Clear existing
+            
+            data[category].forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'gallery-item';
+                itemDiv.innerHTML = `
+                    <img src="${item.img}" class="item-img" alt="${item.name}">
+                    <div class="glitter-text" style="font-size: 1.2rem;">${item.name}</div>
+                `;
+                gallery.appendChild(itemDiv);
+            });
+
+            // Make the cats jump when you click a category
+            bounceCats();
+        }
+
+        // 4. Random Comments about Gana Sameh
+        const comments = [
+            "Gana Sameh is a coding superstar! 👑",
+            "This website is absolutely purr-fect! 🐾",
+            "Gana Sameh has the sparkle touch! 🌟",
+            "Is there anything Gana Sameh can't do? ✨",
+            "Meow! Gana Sameh is so smart! 🐱",
+            "Check out Gana's amazing style! 🎀"
+        ];
+
+        function startCatComments() {
+            setInterval(() => {
+                const randomComment = comments[Math.floor(Math.random() * comments.length)];
+                document.getElementById('commentText').innerText = randomComment;
+                bounceCats();
+            }, 4000);
+        }
+
+        function bounceCats() {
+            const leftCat = document.getElementById('cat-left');
+            const rightCat = document.getElementById('cat-right');
+            
+            leftCat.style.transform = "translateY(-30px) rotate(-15deg)";
+            rightCat.style.transform = "translateY(-30px) rotate(15deg)";
+            
+            setTimeout(() => {
+                leftCat.style.transform = "translateY(0) rotate(-10deg)";
+                rightCat.style.transform = "translateY(0) rotate(10deg)";
+            }, 400);
+        }
+    </script>
+</body>
+</html>
